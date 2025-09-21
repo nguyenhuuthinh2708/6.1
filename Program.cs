@@ -4,165 +4,149 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Excercises_15
+namespace Excercises_15._2
 {
     internal class Program
     {
+                    
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
-            Console.WriteLine("BẤM PHÍM 1 ĐỂ XEM BÀI 1\nBẤM PHÍM 2 ĐỂ XEM BÀI 2");
-            int choice = 0;
-            choice = int.Parse(Console.ReadLine());
-            switch (choice)
+            object [][][] nhom = BangComX();
+            do
             {
-                case 1: ex01();
+                Console.WriteLine("NHẤN PHÍM TỪ 1 - 4 ĐỂ CHỌN THAO TÁC");
+                Console.WriteLine(" 1. In danh sách nhân viên\n 2. Tìm nhân viên bằng ID\n 3. Nhân viên xuất sắc nhất");
+                string s = Console.ReadLine();
+                int chon = 0;
+                while (!int.TryParse(s, out chon))
+                {
+                    Console.WriteLine("Nhập lại");
+                    s = Console.ReadLine();
+                }
+                switch (chon)
+                {
+                    case 1:
+                        InDanhSach(nhom);
+                        break;
+                    case 2:
+                        Console.WriteLine("Nhập ID cần tìm");
+                        string x = Console.ReadLine();
+                        int s_id = 0;
+                        while (!int.TryParse(x, out s_id))
+                        {
+                            Console.WriteLine("Nhập lại");
+                            x = Console.ReadLine();
+                        }
+                        Console.WriteLine("Thông tin nhân viên cần tìm");
+                        TimBangID(nhom, s_id);
+                        break;
+                    case 3:
+                        Console.WriteLine("Nhân viên hoàn thành nhiệm vụ là: ");
+                        NhanVienTot(nhom);
+                        break;
+                     default:
+                        Console.WriteLine("Lựa chọn không hợp lệ");
+                        break;
+                }
+                Console.WriteLine("Bạn có muốn thoát khỏi chương trình (c/k)");
+                string tl = Console.ReadLine();
+                if (tl.ToLower().Equals("c"))
+                {
+                    Console.WriteLine("Tạm biệt");
                     break;
-                case 2:
-                    Console.WriteLine("BẤM TỪ 1 - 4 ĐỂ LỰA CHỌN CÁC HÀM\n 1. Tìm giá trị lớn nhất\n 2. Sắp xếp\n 3. In số nguyên tố\n 4. Tìm vị trí giá trị");
-                    int choice1 = 0;
-                    choice1 = int.Parse(Console.ReadLine());
-                    
-                    int[][] newarr = new int[4][];
-                    newarr[0]= new int[4];
-                    newarr[1]= new int[5];
-                    newarr[2]= new int[3];
-                    newarr[3]= new int[2];
-                    
-                    RandomArr(newarr);
-                    PrintArr(newarr);
 
-                    switch (choice1)
+                }
+            }
+            while (true);
+        }
+        static object [][][] BangComX()
+        {
+            object[][][] nhom = new object[3][][];
+            nhom[0] = new object[5][]
+            {
+                new object[]{101, new object[]{"Nick", 7} },
+                new object[]{102, new object[]{"Ken", 8} },
+                new object[]{103, new object[]{"Taylor", 10} },
+                new object[]{104, new object[]{"John", 12} },
+                new object[]{105, new object[]{"Maria", 20} },
+            };
+            nhom[1] = new object[3][]
+            {
+                new object[]{201, new object[]{"Nguyen", 5} },
+                new object[]{202, new object[]{"Tran", 6} },
+                new object[]{203, new object[]{"Le", 11} },
+                
+            };
+            nhom[2] = new object[6][]
+            {
+                new object[]{301, new object[]{"Quin", 4} },
+                new object[]{302, new object[]{"Chen", 3} },
+                new object[]{303, new object[]{"Po", 14} },
+                new object[]{304, new object[]{"Lin", 13} },
+                new object[]{305, new object[]{"Mao", 21} },
+                new object[]{306, new object[]{"Jiting", 25} },
+            };
+            return nhom;
+        }
+        static void InDanhSach(object[][][] nhom )
+        {
+            Console.WriteLine("DANH SÁCH NHÂN VIÊN: ");
+            Console.WriteLine("ID\tTên\tNhiệm vụ");
+            foreach (var stt in nhom)
+            {
+                foreach (var tv in stt)
+                {
+                    int id = (int)tv[0];
+                    string ten = (string)((object[])tv[1])[0];
+                    int cv = (int)((object[])tv[1])[1];
+                    
+                    Console.WriteLine($"{id}\t{ten}\t{cv}");
+                }
+            }
+        }
+        static void TimBangID(object[][][] nhom, int search_id)
+        {
+            foreach (var stt in nhom)
+            {
+                foreach (var tv in stt)
+                {
+                    int id = (int)tv[0];
+                    if (id == search_id)
                     {
-                        case 1:
-                            Console.Write("Số lớn nhất trong mảng là: "); PrintLargestRowArr(newarr);
-                            break;
-                        case 2:
-                            Console.WriteLine("Số nguyên tố trong mảng là: "); PrintPrimeInArr(newarr);
-                            break;
-                        case 3:
-                            Console.WriteLine("Mảng sau khi sắp xếp"); SortArr(newarr);
-                            PrintArr(newarr);
-                            break;
-                        case 4:
-                            Console.WriteLine("Nhập phần tử muốn tìm kiếm");
-                            int choice2 = int.Parse(Console.ReadLine());
-                            Console.WriteLine($"Vị trí của phần tử {choice2} ");SearchNums(newarr,choice2);
-                            break;
-
+                        string ten = (string)((object[])tv[1])[0];
+                        int cv = (int)((object[])tv[1])[1];
+                        Console.WriteLine($"ID: {id}\tTên: {ten}\tNhiệm vụ: {cv}");
+                        return;
                     }
-
-
-
-                    
-                    break;
-            }
-            Console.ReadLine();
-            
-        }
-        static void ex01()
-        {
-            int[][] jagarr = new int[4][];
-            jagarr[0] = new int[5] { 1, 1, 1, 1, 1, };
-            jagarr[1] = new int[2] { 2, 2 };
-            jagarr[2] = new int[4] { 3, 3, 3, 3 };
-            jagarr[3] = new int[2] { 4, 4};
-            for (int i = 0; i < jagarr.Length; i++)
-            {
-                for(int j = 0; j < jagarr[i].Length; j++)
-                {
-                    Console.Write(jagarr[i][j] + " ");
-                }
-                Console.WriteLine();
-            }
-
-        }
-        static void RandomArr(int[][] a)
-        {
-            Random rd = new Random();
-            for (int i = 0; i < a.Length; i++)
-            {
-                for (int j = 0; j < a[i].Length; j++)
-                {
-                    a[i][j] = rd.Next(1, 101);
                 }
             }
+            Console.WriteLine("Không tìm thấy nhân viên");
         }
-        static void PrintArr(int[][] a)
+        static void NhanVienTot(object[][][] nhom)
         {
-            for (int i = 0; i < a.Length; i++)
+            int maxNV = -1;
+            int maxID = -1;
+            string maxTen = "";
+            Console.WriteLine("Thành viên hoàn thành nhiều nhiệm vụ nhất là:");
+            foreach ( var stt in nhom)
             {
-                for (int j = 0; j < a[i].Length; j++)
+                foreach( var tv in stt)
                 {
-                    Console.Write($"{a[i][j]}\t");
-                }
-                Console.WriteLine();
-            }
-        }
-        static void PrintLargestRowArr(int[][] a)
-        {
-            int maxarr = a[0][0];
-            for (int i = 0; i < a.Length; i++)
-            {
-                int maxrows = a[i][0];
-                for (int j = 1; j < a[i].Length; j++)
-                {
-                    if (maxrows < a[i][j])
+                    int cv = (int)((object[])tv[1])[1];
+                    int id = (int)(tv[0]);
+                    string ten = (string)((object[])tv[1])[0] ;
+                    if (cv > maxNV)
                     {
-                        maxrows = a[i][j];
-                    }                                     
+                        maxNV = cv;
+                        maxID = id;
+                        maxTen = ten;
+                    }
                 }
-                Console.WriteLine($"Max of row {i} = {maxrows}");
-                if (maxrows > maxarr)
-                    maxarr = maxrows;
-            }
-            Console.WriteLine($"Max of Array = {maxarr}");
-        }
-        static bool isPrime(int n)
-        {
-            for (int i = 2; i <= Math.Sqrt(n); i++)
-            {
-                if (n % i == 0)
-                {
-                    return true;
-                }             
-            }
-            return false;
-            
-        }
-        static void PrintPrimeInArr (int[][] a)
-        {
-            for (int i = 0; i< a.Length; i++)
-            {
-                for (int j = 0; j < a[i].Length; j++)
-                {
-                    if (isPrime(a[i][j]))
-                        Console.WriteLine($"{a[i][j]}");
-                }
-            }
-        }
-        static void SortArr (int[][] a)
-        {
-            for (int i = 0;i< a.Length; i++)
-            {
-                for (int j = 0;j < a[i].Length; j++)
-                {
-                    Array.Sort(a[i]);
-                }
-            }
-        }
-        static void SearchNums(int[][]a, int num)
-        {
-            for (int i = 0; i< a.Length; i++)
-            {
-                for (int j = 0; j < a[i].Length; j++)
-                {
-                    if (a[i][j] == num)
-                        Console.WriteLine($"row {i} and column {j}");
-                }
-            }
-        }
 
+            }
+            Console.WriteLine($"ID: {maxID}\tTên: {maxTen}\tNhiệm vụ: {maxNV}");
+        }
 
     }
 }
